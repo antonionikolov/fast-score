@@ -40,15 +40,22 @@ CREATE TABLE tournament_contacts (
     PRIMARY KEY (tournament_id, user_id)
 );
 
-CREATE TABLE participants (
+CREATE TABLE participating_entities (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tournament_id UUID NOT NULL REFERENCES tournaments(id) ON DELETE CASCADE,
-    player_id UUID NOT NULL REFERENCES players(id),
-    rank_at_registration VARCHAR(10),
+    name VARCHAR(100) NOT NULL,
     seed INTEGER,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(tournament_id, player_id)
+    UNIQUE(tournament_id, name)
+);
+
+CREATE TABLE entity_members (
+    entity_id UUID REFERENCES participating_entities(id) ON DELETE CASCADE,
+    player_id UUID REFERENCES players(id) ON DELETE CASCADE,
+    rank_at_registration VARCHAR(10),
+
+    PRIMARY KEY (entity_id, player_id)
 );
 
 CREATE TABLE matches (
@@ -57,9 +64,9 @@ CREATE TABLE matches (
     parent_match_id UUID REFERENCES matches(id) ON DELETE CASCADE,
 
     -- Players
-    participant1_id UUID REFERENCES participants(id),
-    participant2_id UUID REFERENCES participants(id),
-    winner_id UUID REFERENCES participants(id),
+    participant1_id UUID REFERENCES participating_entities(id),
+    participant2_id UUID REFERENCES participating_entities(id),
+    winner_id UUID REFERENCES participating_entities(id),
 
     -- Scoring
     score1 SMALLINT DEFAULT 0,
