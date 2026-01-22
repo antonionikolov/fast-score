@@ -9,7 +9,15 @@ public record ParticipatingEntityDto(
         UUID tournamentId,
         String name,
         Integer seed,
-        boolean isActive,
+        /*
+            WAITING: Registered but on the waiting list (tournament is full).
+            CONFIRMED: Registered and ready to play.
+            ACTIVE: Currently has an ongoing match.
+            ELIMINATED: Lost in a knockout bracket.
+            WITHDRAWN: Voluntarily left before or during the event.
+            DISQUALIFIED: Removed by an official (crucial for integrity).
+         */
+        String status,
         Instant createdAt,
         List<EntityMemberDto> members,
         int memberCount

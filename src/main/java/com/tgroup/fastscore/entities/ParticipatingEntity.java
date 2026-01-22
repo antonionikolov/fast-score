@@ -27,8 +27,7 @@ public class ParticipatingEntity {
 
     private Integer seed;
 
-    @Column(name = "is_active")
-    private boolean isActive = true;
+    private String status = "CONFIRMED";
 
     @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();
