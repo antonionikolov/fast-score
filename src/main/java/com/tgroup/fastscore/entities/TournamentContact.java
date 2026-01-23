@@ -2,8 +2,14 @@ package com.tgroup.fastscore.entities;
 
 import com.tgroup.fastscore.entities.ids.TournamentContactId;
 import jakarta.persistence.*;
+import lombok.*;
 import org.apache.catalina.User;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tournament_contacts")
 public class TournamentContact {

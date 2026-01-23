@@ -1,11 +1,17 @@
 package com.tgroup.fastscore.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {

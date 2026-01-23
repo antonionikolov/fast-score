@@ -5,8 +5,8 @@ import com.tgroup.fastscore.services.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -25,7 +25,7 @@ public class TournamentController {
     }
 
     @PostMapping(TOURNAMENT_PATH)
-    public ResponseEntity createTournament(@RequestBody TournamentDto tournamentDto) {
+    public ResponseEntity createTournament(@Validated @RequestBody TournamentDto tournamentDto) {
         TournamentDto savedTournament = this.tournamentService.createTournament(tournamentDto);
 
         HttpHeaders headers = new HttpHeaders();

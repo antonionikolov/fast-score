@@ -1,10 +1,16 @@
 package com.tgroup.fastscore.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "players")
 public class Player {

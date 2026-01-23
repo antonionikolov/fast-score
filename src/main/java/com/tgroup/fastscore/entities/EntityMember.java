@@ -2,7 +2,13 @@ package com.tgroup.fastscore.entities;
 
 import com.tgroup.fastscore.entities.ids.EntityMemberId;
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "entity_members")
 public class EntityMember {
