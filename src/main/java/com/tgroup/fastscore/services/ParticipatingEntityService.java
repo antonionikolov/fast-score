@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.UUID;
 
 public interface ParticipatingEntityService {
-    ParticipatingEntityDto getParticipatingEntityById(UUID tournamentId, UUID participatingEntityId);
+    ParticipatingEntityDto getParticipatingEntityById(UUID participatingEntityId);
     ParticipatingEntityDto addParticipatingEntity(UUID tournamentId, ParticipatingEntityDto participatingEntityDto);
 }

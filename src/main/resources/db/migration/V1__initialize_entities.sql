@@ -45,7 +45,7 @@ CREATE TABLE participating_entities (
     tournament_id UUID NOT NULL REFERENCES tournaments(id) ON DELETE CASCADE,
     name VARCHAR(100) NOT NULL,
     seed INTEGER,
-    status VARCHAR(20) DEFAULT 'CONFIRMED';
+    status VARCHAR(20) DEFAULT 'CONFIRMED',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(tournament_id, name)
 );

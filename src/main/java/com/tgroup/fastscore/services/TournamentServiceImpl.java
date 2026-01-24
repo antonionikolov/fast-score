@@ -34,8 +34,6 @@ public class TournamentServiceImpl implements TournamentService {
     public TournamentDto createTournament(TournamentDto tournamentDto) {
         return this.tournamentMapper.tournamentToTournamentDto(
                 this.tournamentRepository.save(
-                        this.tournamentMapper.tournamentDtoToTournament(tournamentDto)
-                )
-        );
+                        this.tournamentMapper.tournamentDtoToTournament(tournamentDto)));
     }
 }
