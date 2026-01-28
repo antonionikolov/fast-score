@@ -8,8 +8,11 @@ import com.tgroup.fastscore.repositories.ParticipatingEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +32,16 @@ public class ParticipatingEntityServiceImpl implements ParticipatingEntityServic
         }
 
         return this.participatingEntityMapper.participatingEntityToParticipatingEntityDto(participatingEntity.get());
+    }
+
+    public List<ParticipatingEntityDto> getParticipatingEntitiesByTournamentId(UUID tournamentId) {
+        if (tournamentId == null) {
+            throw new RuntimeException("Required property tournamentId is null!");
+        }
+
+        return participatingEntityRepository.findAllByTournamentId(tournamentId).stream()
+                .map((this.participatingEntityMapper::participatingEntityToParticipatingEntityDto))
+                .collect(Collectors.toList());
     }
 
     public ParticipatingEntityDto addParticipatingEntity(
