@@ -50,7 +50,7 @@ public class BracketServiceImpl implements BracketService {
             firstRoundMatches.add(matchDto);
         }
 
-        List<MatchDto.MatchDtoBuilder> allBuilders = this.generateRestOfTheBracket(tournamentId, 2, firstRoundMatches.size() + 1, firstRoundMatches);
+        List<MatchDto.MatchDtoBuilder> allBuilders = this.generateRestOfTheBracket(tournamentId, 2, firstRoundMatches.size(), firstRoundMatches);
         List<Match> allMatches = allBuilders.stream().map((matchBuilder) -> matchMapper.matchDtoToMatch(matchBuilder.build())).toList();
         matchRepository.saveAll(allMatches);
     }
@@ -68,7 +68,7 @@ public class BracketServiceImpl implements BracketService {
             MatchDto.MatchDtoBuilder newMatchDtoBuilder = MatchDto.builder()
                     .tournamentId(tournamentId)
                     .roundNumber((short) roundNumber)
-                    .sortOrder((short) ((sortOrderStart + i)/2))
+                    .sortOrder((short) (sortOrderStart + i/2))
                     .nextMatchSlot(((i / 2) % 2) + 1);
             Match match = matchRepository.save(matchMapper.matchDtoToMatch(newMatchDtoBuilder.build()));
             newMatchDtoBuilder.id(match.getId());
@@ -80,7 +80,7 @@ public class BracketServiceImpl implements BracketService {
 
         matchDtoBuilders.addAll(this.generateRestOfTheBracket(tournamentId,
                 roundNumber + 1,
-                sortOrderStart + matchDtoBuilders.size(),
+                sortOrderStart + newMatchDtoBuilders.size(),
                 newMatchDtoBuilders));
 
         return matchDtoBuilders;
