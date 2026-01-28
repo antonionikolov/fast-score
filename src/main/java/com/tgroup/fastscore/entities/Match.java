@@ -20,25 +20,20 @@ public class Match {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tournament_id", nullable = false)
-    private Tournament tournament;
+    @Column(name = "tournament_id", nullable = false)
+    private UUID tournamentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_match_id")
-    private Match parentMatch;
+    @Column(name = "parent_match_id")
+    private UUID parentMatchId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "participant1_id")
-    private ParticipatingEntity participant1;
+    @Column(name = "participant1_id")
+    private UUID participant1Id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "participant2_id")
-    private ParticipatingEntity participant2;
+    @Column(name = "participant2_id")
+    private UUID participant2Id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "winner_id")
-    private ParticipatingEntity winner;
+    @Column(name = "winner_id")
+    private UUID winner_id;
 
     private short score1 = 0;
     private short score2 = 0;
@@ -50,9 +45,8 @@ public class Match {
     @Column(name = "sort_order")
     private short sortOrder;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "next_match_id")
-    private Match nextMatch;
+    @Column(name = "next_match_id")
+    private UUID nextMatchId;
 
     @Column(name = "next_match_slot")
     private Integer nextMatchSlot;

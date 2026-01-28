@@ -23,7 +23,7 @@ public class TournamentController {
     private final BracketService bracketService;
 
     @GetMapping(TOURNAMENT_PATH_ID)
-    public TournamentDto getTournamentById(@RequestParam("tournamentId") UUID tournamentId) {
+    public TournamentDto getTournamentById(@PathVariable("tournamentId") UUID tournamentId) {
         return this.tournamentService.getTournamentById(tournamentId);
     }
 
@@ -39,7 +39,7 @@ public class TournamentController {
 
     @PostMapping(TOURNAMENT_PATH_GENERATE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void generateInitialBracket(@RequestParam("tournamentId") UUID tournamentId) {
+    public void generateInitialBracket(@PathVariable("tournamentId") UUID tournamentId) {
         this.bracketService.generateInitialRound(tournamentId);
     }
 }

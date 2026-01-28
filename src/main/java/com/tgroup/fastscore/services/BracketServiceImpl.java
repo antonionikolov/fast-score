@@ -6,6 +6,7 @@ import com.tgroup.fastscore.model.MatchDto;
 import com.tgroup.fastscore.model.ParticipatingEntityDto;
 import com.tgroup.fastscore.model.TournamentDto;
 import com.tgroup.fastscore.repositories.MatchRepository;
+import com.tgroup.fastscore.repositories.TournamentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,16 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BracketServiceImpl {
+public class BracketServiceImpl implements BracketService {
     private final TournamentService tournamentService;
     private final ParticipatingEntityService participatingEntityService;
     private final MatchRepository matchRepository;
     private final MatchMapper matchMapper;
 
+    @Override
     @Transactional
-    void generateInitialRound(UUID tournamentId) {
-        TournamentDto tournament = tournamentService.getTournamentById(tournamentId);
+    public void generateInitialRound(UUID tournamentId) {
+        tournamentService.verifyTournamentExists(tournamentId);
 
         List<ParticipatingEntityDto> participants =
                 participatingEntityService.getParticipatingEntitiesByTournamentId(tournamentId);
@@ -36,35 +38,51 @@ public class BracketServiceImpl {
         List<MatchDto.MatchDtoBuilder> firstRoundMatches = new ArrayList<>();
         for (int i = 0; i < participants.size(); i+= 2) {
             MatchDto.MatchDtoBuilder matchDto = MatchDto.builder()
-                    .tournamentId(tournament.id())
-                    .participant1Id(participants.get(i))
-                    .participant2Id(participants.get(i + 1))
+                    .tournamentId(tournamentId)
+                    .participant1Id(participants.get(i).id())
+                    .participant2Id(participants.get(i + 1).id())
                     .participant1Name(participants.get(i).name())
                     .participant2Name(participants.get(i + 1).name())
-                    .roundNumber(1)
-                    .sortOrder(i)
+                    .roundNumber((short) 1)
+                    .sortOrder((short) (i / 2))
                     .nextMatchSlot(((i / 2) % 2) + 1);
 
             firstRoundMatches.add(matchDto);
         }
 
-//        matchRepository.saveAll(firstRoundMatches.stream().map(matchMapper::matchDtoToMatch).collect(Collectors.toList()));
-
+        List<MatchDto.MatchDtoBuilder> allBuilders = this.generateRestOfTheBracket(tournamentId, 2, firstRoundMatches.size() + 1, firstRoundMatches);
+        List<Match> allMatches = allBuilders.stream().map((matchBuilder) -> matchMapper.matchDtoToMatch(matchBuilder.build())).toList();
+        matchRepository.saveAll(allMatches);
     }
 
-    private List<MatchDto> generateRestOfTheBracket(UUID tournamentId, int roundNumber, int sortOrderStart, List<MatchDto> matches) {
-        if (matches.isEmpty()) {
-            return new ArrayList<>();
+    private List<MatchDto.MatchDtoBuilder> generateRestOfTheBracket(UUID tournamentId,
+                                                    int roundNumber,
+                                                    int sortOrderStart,
+                                                    List<MatchDto.MatchDtoBuilder> matchDtoBuilders) {
+        if (matchDtoBuilders.size() == 1) {
+            return matchDtoBuilders;
         }
 
-        for (int i = 0; i < matches.size(); i += 2) {
-            MatchDto.MatchDtoBuilder matchDto = MatchDto.builder()
+        List<MatchDto.MatchDtoBuilder> newMatchDtoBuilders = new ArrayList<>();
+        for (int i = 0; i < matchDtoBuilders.size(); i += 2) {
+            MatchDto.MatchDtoBuilder newMatchDtoBuilder = MatchDto.builder()
                     .tournamentId(tournamentId)
-                    .roundNumber(roundNumber)
-                    .sortOrder(sortOrderStart + i)
+                    .roundNumber((short) roundNumber)
+                    .sortOrder((short) ((sortOrderStart + i)/2))
                     .nextMatchSlot(((i / 2) % 2) + 1);
-//            Match match = matchRepository.save(matchMapper.matchDtoToMatch(matchDto));
-//            matches.get(i).
+            Match match = matchRepository.save(matchMapper.matchDtoToMatch(newMatchDtoBuilder.build()));
+            newMatchDtoBuilder.id(match.getId());
+
+            matchDtoBuilders.get(i).nextMatchId(match.getId());
+            matchDtoBuilders.get(i + 1).nextMatchId(match.getId());
+            newMatchDtoBuilders.add(newMatchDtoBuilder);
         }
+
+        matchDtoBuilders.addAll(this.generateRestOfTheBracket(tournamentId,
+                roundNumber + 1,
+                sortOrderStart + matchDtoBuilders.size(),
+                newMatchDtoBuilders));
+
+        return matchDtoBuilders;
     }
 }
