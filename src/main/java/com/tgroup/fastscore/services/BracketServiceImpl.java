@@ -4,15 +4,15 @@ import com.tgroup.fastscore.entities.Match;
 import com.tgroup.fastscore.mappers.MatchMapper;
 import com.tgroup.fastscore.model.MatchDto;
 import com.tgroup.fastscore.model.ParticipatingEntityDto;
-import com.tgroup.fastscore.model.TournamentDto;
 import com.tgroup.fastscore.repositories.MatchRepository;
-import com.tgroup.fastscore.repositories.TournamentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +43,7 @@ public class BracketServiceImpl implements BracketService {
                     .participant2Id(participants.get(i + 1).id())
                     .participant1Name(participants.get(i).name())
                     .participant2Name(participants.get(i + 1).name())
+                    .status("READY")
                     .roundNumber((short) 1)
                     .sortOrder((short) (i / 2))
                     .nextMatchSlot(((i / 2) % 2) + 1);
@@ -69,6 +70,7 @@ public class BracketServiceImpl implements BracketService {
                     .tournamentId(tournamentId)
                     .roundNumber((short) roundNumber)
                     .sortOrder((short) (sortOrderStart + i/2))
+                    .status("PENDING")
                     .nextMatchSlot(((i / 2) % 2) + 1);
             Match match = matchRepository.save(matchMapper.matchDtoToMatch(newMatchDtoBuilder.build()));
             newMatchDtoBuilder.id(match.getId());

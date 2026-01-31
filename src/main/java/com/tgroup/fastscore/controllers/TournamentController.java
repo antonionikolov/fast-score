@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController("/tournamets")
+@RestController()
 @RequiredArgsConstructor
 public class TournamentController {
     public static final String TOURNAMENT_PATH = "/api/v1/tournaments";

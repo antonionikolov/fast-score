@@ -2,6 +2,7 @@ package com.tgroup.fastscore.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.With;
 
 import java.util.UUID;
 
@@ -17,9 +18,10 @@ public record MatchDto(
         UUID participant2Id,
         String participant1Name,
         String participant2Name,
-        short score1,
-        short score2,
-        String status,
+        @With short score1,
+        @With short score2,
+        @With UUID winnerId,
+        @With String status,
 
         @NotNull
         short roundNumber,

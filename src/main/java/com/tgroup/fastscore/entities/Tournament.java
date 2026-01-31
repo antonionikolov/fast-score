@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -43,7 +42,4 @@ public class Tournament {
 
     @Column(name = "status")
     private String status = "DRAFT";
-
-    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL)
-    private List<ParticipatingEntity> participants;
 }

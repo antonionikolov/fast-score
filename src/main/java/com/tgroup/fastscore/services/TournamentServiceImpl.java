@@ -40,6 +40,10 @@ public class TournamentServiceImpl implements TournamentService {
     // Move this in custom validator
     @Override
     public void verifyTournamentExists(UUID tournamentId) {
+        if (tournamentId == null) {
+            throw new RuntimeException("Required property tournament id is null!");
+        }
+
         if (!this.tournamentRepository.existsById(tournamentId)) {
             throw new RuntimeException("Tournament with id: " + tournamentId + " doesn't exist!");
         }

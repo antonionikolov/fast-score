@@ -22,6 +22,7 @@ public record TournamentDto(
 
         String format,
         Short raceTo,
+        boolean handicap,
 
         @NotNull
         String status

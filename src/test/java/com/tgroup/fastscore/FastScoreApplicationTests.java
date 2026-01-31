@@ -1,13 +1,10 @@
-//package com.tgroup.fastscore;
-//
-//import org.junit.jupiter.api.Test;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
+package com.tgroup.fastscore;
+
 //@SpringBootTest
+//@EmbeddedKafka(partitions = 1)
 //class FastScoreApplicationTests {
-//
 //	@Test
 //	void contextLoads() {
+//		// Your test will now wait for Kafka to start in Docker
 //	}
-//
 //}
