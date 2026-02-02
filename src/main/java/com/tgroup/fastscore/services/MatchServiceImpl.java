@@ -4,6 +4,7 @@ import com.tgroup.fastscore.entities.Match;
 import com.tgroup.fastscore.mappers.MatchMapper;
 import com.tgroup.fastscore.messaging.TournamentMatchUpdateEvent;
 import com.tgroup.fastscore.model.MatchDto;
+import com.tgroup.fastscore.model.MatchStatus;
 import com.tgroup.fastscore.model.ScoreReportDto;
 import com.tgroup.fastscore.repositories.MatchRepository;
 import jakarta.transaction.Transactional;
@@ -56,7 +57,7 @@ public class MatchServiceImpl implements MatchService {
         tournamentService.verifyTournamentExists(tournamentId);
         MatchDto match = getMatchById(matchId);
 
-        if (match.status().equals("FINISHED")) {
+        if (match.status().equals(MatchStatus.FINISHED)) {
             throw new IllegalStateException("Cannot update scores for a finished match.");
         }
 

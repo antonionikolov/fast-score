@@ -21,7 +21,7 @@ public record MatchDto(
         @With short score1,
         @With short score2,
         @With UUID winnerId,
-        @With String status,
+        @With MatchStatus status,
 
         @NotNull
         short roundNumber,

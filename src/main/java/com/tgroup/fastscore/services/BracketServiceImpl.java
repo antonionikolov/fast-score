@@ -3,6 +3,7 @@ package com.tgroup.fastscore.services;
 import com.tgroup.fastscore.entities.Match;
 import com.tgroup.fastscore.mappers.MatchMapper;
 import com.tgroup.fastscore.model.MatchDto;
+import com.tgroup.fastscore.model.MatchStatus;
 import com.tgroup.fastscore.model.ParticipatingEntityDto;
 import com.tgroup.fastscore.repositories.MatchRepository;
 import jakarta.transaction.Transactional;
@@ -43,7 +44,7 @@ public class BracketServiceImpl implements BracketService {
                     .participant2Id(participants.get(i + 1).id())
                     .participant1Name(participants.get(i).name())
                     .participant2Name(participants.get(i + 1).name())
-                    .status("READY")
+                    .status(MatchStatus.READY)
                     .roundNumber((short) 1)
                     .sortOrder((short) (i / 2))
                     .nextMatchSlot(((i / 2) % 2) + 1);
@@ -70,7 +71,7 @@ public class BracketServiceImpl implements BracketService {
                     .tournamentId(tournamentId)
                     .roundNumber((short) roundNumber)
                     .sortOrder((short) (sortOrderStart + i/2))
-                    .status("PENDING")
+                    .status(MatchStatus.WAITING)
                     .nextMatchSlot(((i / 2) % 2) + 1);
             Match match = matchRepository.save(matchMapper.matchDtoToMatch(newMatchDtoBuilder.build()));
             newMatchDtoBuilder.id(match.getId());

@@ -25,5 +25,5 @@ public record TournamentDto(
         boolean handicap,
 
         @NotNull
-        String status
+        TournamentStatus status
 ) {}

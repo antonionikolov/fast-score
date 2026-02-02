@@ -1,5 +1,6 @@
 package com.tgroup.fastscore.entities;
 
+import com.tgroup.fastscore.model.MatchStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -37,7 +38,10 @@ public class Match {
 
     private short score1 = 0;
     private short score2 = 0;
-    private String status = "PENDING";
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private MatchStatus status = MatchStatus.WAITING;
 
     @Column(name = "round_number", nullable = false)
     private short roundNumber;

@@ -18,15 +18,8 @@ public record ParticipatingEntityDto(
         @NotBlank
         String name,
         Integer seed,
-        /*
-            WAITING: Registered but on the waiting list (tournament is full).
-            CONFIRMED: Registered and ready to play.
-            ACTIVE: Currently has an ongoing match.
-            ELIMINATED: Lost in a knockout bracket.
-            WITHDRAWN: Voluntarily left before or during the event.
-            DISQUALIFIED: Removed by an official (crucial for integrity).
-         */
-        String status,
+
+        ParticipatingEntityStatus status,
         Instant createdAt,
 
         @NotNull

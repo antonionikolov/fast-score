@@ -1,5 +1,6 @@
 package com.tgroup.fastscore.entities;
 
+import com.tgroup.fastscore.model.TournamentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -40,6 +41,7 @@ public class Tournament {
     private Short raceTo;
     private boolean handicap = false;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status = "DRAFT";
+    private TournamentStatus status = TournamentStatus.DRAFT;
 }

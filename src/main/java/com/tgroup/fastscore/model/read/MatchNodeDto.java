@@ -1,5 +1,6 @@
 package com.tgroup.fastscore.model.read;
 
+import com.tgroup.fastscore.model.MatchStatus;
 import lombok.Builder;
 
 import java.util.UUID;
@@ -12,6 +13,6 @@ public record MatchNodeDto(
         int score1,
         int score2,
         UUID winnerId,
-        String status,
+        MatchStatus status,
         UUID nextMatchId) {
 }

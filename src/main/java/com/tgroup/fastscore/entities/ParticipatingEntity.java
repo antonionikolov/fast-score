@@ -1,5 +1,6 @@
 package com.tgroup.fastscore.entities;
 
+import com.tgroup.fastscore.model.ParticipatingEntityStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -33,7 +34,9 @@ public class ParticipatingEntity {
 
     private Integer seed;
 
-    private String status = "CONFIRMED";
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ParticipatingEntityStatus status = ParticipatingEntityStatus.REGISTRATION_PENDING;
 
     @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();

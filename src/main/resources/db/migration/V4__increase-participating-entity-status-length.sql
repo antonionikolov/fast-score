@@ -1,0 +1,2 @@
+ALTER TABLE participating_entities ALTER COLUMN status TYPE VARCHAR(30);
+ALTER TABLE participating_entities ALTER COLUMN status SET DEFAULT 'REGISTRATION_PENDING';
