@@ -1,5 +1,6 @@
 package com.tgroup.fastscore.entities;
 
+import com.tgroup.fastscore.model.TournamentFormat;
 import com.tgroup.fastscore.model.TournamentStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,7 +38,10 @@ public class Tournament {
     @Column(name = "organiser_id", nullable = false)
     private UUID organiserId;
 
-    private String format;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "format")
+    private TournamentFormat format;
+
     private Short raceTo;
     private boolean handicap = false;
 

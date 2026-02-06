@@ -20,7 +20,7 @@ public record TournamentDto(
         @NotNull
         String organiserType,
 
-        String format,
+        TournamentFormat format,
         Short raceTo,
         boolean handicap,
 

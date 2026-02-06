@@ -1,5 +1,6 @@
 package com.tgroup.fastscore.model.read;
 
+import com.tgroup.fastscore.model.TournamentFormat;
 import com.tgroup.fastscore.model.TournamentStatus;
 import lombok.Builder;
 
@@ -13,7 +14,7 @@ public record TournamentTreeDto(
         String tournamentName,
         Instant startsAt,
         String venueNameManual,
-        String format,
+        TournamentFormat format,
         Short raceTo,
         boolean handicap,
         TournamentStatus status,
